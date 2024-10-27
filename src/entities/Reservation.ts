@@ -1,29 +1,29 @@
+class Reservation {
+  id: string;
+  date: Date;
+  time: string;
+  duration: number;
+  studentId: string;
+  roomId: string;
+  status: ReservationStatus;
 
-  // src/models/Reservation.ts
-export class Reservation {
-    constructor(
-    public id: string,
-    public date: Date,
-    public time: string,
-    public duration: number,
-    public studentId: string,
-    public roomId: string
-    ) {}
+  constructor(id: string, date: Date, time: string, duration: number, studentId: string, roomId: string) {
+    this.id = id;
+    this.date = date;
+    this.time = time;
+    this.duration = duration;
+    this.studentId = studentId;
+    this.roomId = roomId;
+    this.status = ReservationStatus.PENDING;
+  }
 
-    create(): void {
-      // Implementation to create a new reservation
-    console.log(`Reservation created for room ${this.roomId}`);
-    }
+  updateStatus(newStatus: ReservationStatus): void {
+    this.status = newStatus;
+  }
+}
 
-    cancel(): void {
-      // Implementation to cancel the reservation
-    console.log(`Reservation for room ${this.roomId} cancelled`);
-    }
-
-    modify(newDate: Date, newTime: string, newDuration: number): void {
-    this.date = newDate;
-    this.time = newTime;
-    this.duration = newDuration;
-    console.log(`Reservation for room ${this.roomId} modified`);
-    }
+enum ReservationStatus {
+  PENDING = "pending",
+  CONFIRMED = "confirmed",
+  CANCELED = "canceled"
 }

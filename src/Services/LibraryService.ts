@@ -1,9 +1,9 @@
 // src/services/LibraryService.ts
 import { Book } from '../entities/Book';
-import { Student } from '../entities/Student';
 import { Librarian } from '../entities/Librarian';
-import { StudyRoom } from '../entities/StudyRoom';
 import { Reservation } from '../entities/Reservation';
+import { Student } from '../entities/Student';
+import { StudyRoom } from '../entities/StudyRoom';
 
 export class LibraryService {
 private books: Map<string, Book> = new Map();
@@ -76,6 +76,7 @@ addBook(book: Book): void {
 addStudent(student: Student): void {
 this.students.set(student.id, student);
 }
+
 
 addRoom(room: StudyRoom): void {
     this.rooms.set(room.id, room);

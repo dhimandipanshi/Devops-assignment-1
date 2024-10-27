@@ -1,36 +1,39 @@
+class Student {
+  id: string;
+  name: string;
+  contactInfo: string;
+  borrowedBooks: Book[] = [];
+  fines: Fine[] = [];
 
-  // src/models/Student.ts
-  export class Student {
-    public borrowedBooks: string[] = []; // Array of book IDs
-    public fines: number = 0;
+  constructor(id: string, name: string, contactInfo: string) {
+    this.id = id;
+    this.name = name;
+    this.contactInfo = contactInfo;
+  }
 
-    constructor(
-    public id: string,
-    public name: string,
-    public contactInformation: string
-    ) {}
-
-    borrowBook(bookId: string): void {
-    this.borrowedBooks.push(bookId);
-    }
-
-    returnBook(bookId: string): void {
-    const index = this.borrowedBooks.indexOf(bookId);
-    if (index > -1) {
-        this.borrowedBooks.splice(index, 1);
-    }
-    }
-
-    payFine(amount: number): void {
-    if (amount <= this.fines) {
-        this.fines -= amount;
-    } else {
-        throw new Error('Payment amount exceeds total fines');
-    }
-    }
-
-    reserveRoom(roomId: string): void {
-      // Implementation depends on how we manage room reservations
-    console.log(`Room ${roomId} reserved for student ${this.id}`);
+  borrowBook(book: Book): void {
+    if (book.status === BookStatus.AVAILABLE) {
+      book.checkOut();
+      this.borrowedBooks.push(book);
     }
   }
+
+  returnBook(book: Book): void {
+    const index = this.borrowedBooks.findIndex(b => b.id === book.id);
+    if (index !== -1) {
+      book.returnBook();
+      this.borrowedBooks.splice(index, 1);
+    }
+  }
+
+  payFine(fine: Fine): void {
+    fine.pay();
+  }
+
+  reserveRoom(room: StudyRoom, reservation: Reservation): void {
+    if (room.checkAvailability(reservation.date, reservation.time, reservation.duration)) {
+      room.reserve();
+      reservation.studentId = this.id;
+    }
+  }
+}

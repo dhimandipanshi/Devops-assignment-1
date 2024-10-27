@@ -1,9 +1,9 @@
 // tests/LibraryService.test.ts
-import { LibraryService } from '../src/services/LibraryService';
-import { Book } from '../src/entities/Book';
-import { Student } from '../src/entities/Student';
-import { Librarian } from '../src/entities/Librarian';
-import { StudyRoom } from '../src/entities/StudyRoom';
+import { LibraryService } from '../Services/LibraryService';
+import { Book } from '../entities/Book';
+import { Student } from '../entities/Student';
+import { Librarian } from '../entities/Librarian';
+import { StudyRoom } from '../entities/StudyRoom';
 
 describe('LibraryService', () => {
 let libraryService: LibraryService;

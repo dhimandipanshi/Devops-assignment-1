@@ -1,36 +1,43 @@
-// src/models/Book.ts
-export class Book {
-    constructor(
-    public id: string,
-    public title: string,
-    public author: string,
-    public isbn: string,
-    public publicationDate: Date,
-    public status: 'available' | 'checked out' | 'reserved'
-    ) {}
+class Book {
+    id: string;
+    title: string;
+    author: string;
+    isbn: string;
+    publicationDate: Date;
+    status: BookStatus;
+
+    constructor(id: string, title: string, author: string, isbn: string, publicationDate: Date) {
+    this.id = id;
+    this.title = title;
+    this.author = author;
+    this.isbn = isbn;
+    this.publicationDate = publicationDate;
+    this.status = BookStatus.AVAILABLE;
+    }
 
     checkOut(): void {
-    if (this.status === 'available') {
-        this.status = 'checked out';
-    } else {
-        throw new Error('Book is not available for checkout');
+    if (this.status === BookStatus.AVAILABLE) {
+        this.status = BookStatus.CHECKED_OUT;
     }
     }
 
     returnBook(): void {
-    this.status = 'available';
+    this.status = BookStatus.AVAILABLE;
     }
 
     reserve(): void {
-    if (this.status === 'available') {
-        this.status = 'reserved';
-    } else {
-        throw new Error('Book is not available for reservation');
-}
+    if (this.status === BookStatus.AVAILABLE) {
+        this.status = BookStatus.RESERVED;
+    }
     }
 
-    updateStatus(newStatus: 'available' | 'checked out' | 'reserved'): void {
+    updateStatus(newStatus: BookStatus): void {
     this.status = newStatus;
     }
 }
 
+enum BookStatus {
+    AVAILABLE = "available",
+    CHECKED_OUT = "checked_out",
+    RESERVED = "reserved"
+}
