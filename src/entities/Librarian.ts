@@ -1,29 +1,32 @@
+import { Book } from "./Book";
+import { Reservation, ReservationStatus } from "./Reservation";
+import { Student } from "./Student";
 
-  // src/models/Librarian.ts
 export class Librarian {
-    constructor(
-    public id: string,
-    public name: string,
-    public role: string
-    ) {}
+  id: string;
+  name: string;
+  role: string;
 
-    checkOutBook(bookId: string, studentId: string): void {
-      // Implementation would interact with Book and Student instances
-    console.log(`Book ${bookId} checked out to student ${studentId}`);
-    }
+  constructor(id: string, name: string, role: string) {
+    this.id = id;
+    this.name = name;
+    this.role = role;
+  }
 
-    processReturn(bookId: string): void {
-      // Implementation would interact with Book instance
-    console.log(`Book ${bookId} returned`);
-    }
+  checkOutBook(student: Student, book: Book): void {
+    student.borrowBook(book);
+  }
 
-    addNewBook(book: string): void {
-      // Implementation would add the book to the library's collection
-    console.log(`New book added: ${book}`);
-    }
+  processReturn(student: Student, book: Book): void {
+    student.returnBook(book);
+  }
 
-    manageReservations(): void {
-      // Implementation for managing reservations
-    console.log('Managing reservations');
-    }
+  addNewBook(bookDetails: { id: string; title: string; author: string; isbn: string; publicationDate: Date }): Book {
+    const newBook = new Book(bookDetails.id, bookDetails.title, bookDetails.author, bookDetails.isbn, bookDetails.publicationDate);
+    return newBook;
+  }
+
+  manageReservations(reservation: Reservation, status: ReservationStatus): void {
+    reservation.updateStatus(status);
+  }
 }

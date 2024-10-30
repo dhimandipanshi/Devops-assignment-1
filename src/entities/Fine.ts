@@ -1,30 +1,31 @@
+export class Fine {
+  id: string;
+  amount: number;
+  reason: string;
+  status: FineStatus;
 
-  // src/models/Fine.ts
-  export class Fine {
-    constructor(
-    public id: string,
-    public amount: number,
-    public reason: string,
-    public status: 'paid' | 'unpaid'
-    ) {}
+  constructor(id: string, amount: number, reason: string) {
+    this.id = id;
+    this.amount = amount;
+    this.reason = reason;
+    this.status = FineStatus.UNPAID;
+  }
 
-    calculate(): void {
-      // Implementation to calculate the fine amount
-    console.log(`Fine calculated: $${this.amount}`);
-    }
+  calculate(daysOverdue: number): number {
+    return this.amount * daysOverdue;
+  }
 
-    pay(): void {
-    if (this.status === 'unpaid') {
-        this.status = 'paid';
-        console.log(`Fine ${this.id} paid`);
-    } else {
-        throw new Error('Fine has already been paid');
+  pay(): void {
+    this.status = FineStatus.PAID;
+  }
+
+  waive(): void {
+    this.status = FineStatus.WAIVED;
+  }
 }
-    }
 
-    waive(): void {
-    this.amount = 0;
-    this.status = 'paid';
-    console.log(`Fine ${this.id} waived`);
-    }
+enum FineStatus {
+  PAID = "paid",
+  UNPAID = "unpaid",
+  WAIVED = "waived"
 }
