@@ -1,4 +1,4 @@
-class StudyRoom {
+export class StudyRoom {
     id: string;
     capacity: number;
     equipment: string[];

@@ -1,4 +1,4 @@
-class Book {
+export class Book {
     id: string;
     title: string;
     author: string;
@@ -36,7 +36,7 @@ class Book {
     }
 }
 
-enum BookStatus {
+export enum BookStatus {
     AVAILABLE = "available",
     CHECKED_OUT = "checked_out",
     RESERVED = "reserved"

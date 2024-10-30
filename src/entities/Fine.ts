@@ -1,4 +1,4 @@
-class Fine {
+export class Fine {
   id: string;
   amount: number;
   reason: string;

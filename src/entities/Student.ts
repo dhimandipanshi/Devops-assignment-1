@@ -1,4 +1,9 @@
-class Student {
+import { Book, BookStatus } from "./Book";
+import { Fine } from "./Fine";
+import { Reservation } from "./Reservation";
+import { StudyRoom } from "./StudyRoom";
+
+export class Student {
   id: string;
   name: string;
   contactInfo: string;

@@ -1,4 +1,8 @@
-class Librarian {
+import { Book } from "./Book";
+import { Reservation, ReservationStatus } from "./Reservation";
+import { Student } from "./Student";
+
+export class Librarian {
   id: string;
   name: string;
   role: string;

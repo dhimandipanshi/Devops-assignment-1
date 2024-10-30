@@ -1,4 +1,4 @@
-class Reservation {
+export class Reservation {
   id: string;
   date: Date;
   time: string;
@@ -22,7 +22,7 @@ class Reservation {
   }
 }
 
-enum ReservationStatus {
+export enum ReservationStatus {
   PENDING = "pending",
   CONFIRMED = "confirmed",
   CANCELED = "canceled"

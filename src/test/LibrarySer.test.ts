@@ -1,49 +1,46 @@
-// tests/LibraryService.test.ts
 import { LibraryService } from '../Services/LibraryService';
-import { Book } from '../entities/Book';
+import { Book, BookStatus } from '../entities/Book';
 import { Student } from '../entities/Student';
-import { Librarian } from '../entities/Librarian';
 import { StudyRoom } from '../entities/StudyRoom';
+import { Reservation } from '../entities/Reservation';
 
 describe('LibraryService', () => {
-let libraryService: LibraryService;
-let librarian: Librarian;
+    let libraryService: LibraryService;
+    let book: Book;
+    let student: Student;
+    let studyRoom: StudyRoom;
+    let reservation: Reservation;
 
-beforeEach(() => {
-    librarian = new Librarian('L1', 'John Doe', 'Head Librarian');
-    libraryService = new LibraryService(librarian);
+    beforeEach(() => {
+        libraryService = new LibraryService();
+        book = new Book('1', '1984', 'George Orwell', '80085', new Date());
+        student = new Student('1', 'John Doe', 'john.doe@example.com');
+        studyRoom = new StudyRoom('101', 4, ['whiteboard']);
+        reservation = new Reservation('1', new Date(), '12:00', 2, '1', '101');
 
-    // Add a book
-    const book = new Book('B1', 'Test Book', 'Test Author', '1234567890', new Date(), 'available');
-    libraryService.addBook(book);
+        libraryService.addBook(book);
+        libraryService.students.set(student.id, student);
+        libraryService.studyRooms.set(studyRoom.id, studyRoom);
+    });
 
-    // Add a student
-    const student = new Student('S1', 'Jane Smith', 'jane@example.com');
-    libraryService.addStudent(student);
+    it('should check out a book for a student', () => {
+        const result = libraryService.checkOutBook('1', '1');
+        expect(result).toBe(true);
+        expect(book.status).toBe(BookStatus.CHECKED_OUT);
+        expect(student.borrowedBooks.length).toBe(1);
+    });
 
-    // Add a room
-    const room = new StudyRoom('R1', 4, ['whiteboard', 'projector'], 'available');
-    libraryService.addRoom(room);
-});
+    it('should return a book for a student', () => {
+        libraryService.checkOutBook('1', '1');
+        const result = libraryService.returnBook('1', '1');
+        expect(result).toBe(true);
+        expect(book.status).toBe(BookStatus.AVAILABLE);
+        expect(student.borrowedBooks.length).toBe(0);
+    });
 
-test('should checkout a book successfully', () => {
-    expect(() => libraryService.checkoutBook('B1', 'S1')).not.toThrow();
-});
-
-test('should throw an error when checking out an unavailable book', () => {
-    libraryService.checkoutBook('B1', 'S1');
-    expect(() => libraryService.checkoutBook('B1', 'S1')).toThrow('Book is not available for checkout');
-});
-
-test('should reserve a room successfully', () => {
-    const reservation = libraryService.reserveRoom('S1', 'R1', new Date(), '14:00', 2);
-    expect(reservation).toBeDefined();
-    expect(reservation.roomId).toBe('R1');
-    expect(reservation.studentId).toBe('S1');
-});
-
-test('should throw an error when reserving an unavailable room', () => {
-    libraryService.reserveRoom('S1', 'R1', new Date(), '14:00', 2);
-    expect(() => libraryService.reserveRoom('S1', 'R1', new Date(), '14:00', 2)).toThrow('Room is not available for the requested time');
-});
+    it('should reserve a study room for a student', () => {
+        const result = libraryService.reserveStudyRoom('101', '1', reservation);
+        expect(result).toBe(true);
+        expect(studyRoom.status).toBe('reserved');  // Make sure studyRoom has a `status` property
+    });
 });
