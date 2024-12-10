@@ -17,6 +17,15 @@ jobs:
       with:
         node-version: '14'
         
+    - name: Cache node modules
+      uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
+        
     - name: Run tests with coverage
       run: npm run test:coverage
       
