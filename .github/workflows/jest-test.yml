@@ -34,3 +34,7 @@ jobs:
       with:
         name: coverage-report
         path: coverage/
+    
+    - name: Notify on success
+      if: success()
+      run: echo "All tests passed!"

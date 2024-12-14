@@ -32,4 +32,8 @@ describe('Book', () => {
         book.updateStatus(BookStatus.CHECKED_OUT);
         expect(book.status).toBe(BookStatus.CHECKED_OUT);
     });
+
+    test('subtracts 5 - 2 to equal 3', () => {
+        expect(5 - 2).toBe(3);
+    });
 });
